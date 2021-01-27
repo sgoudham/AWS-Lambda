@@ -127,3 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# User defined
+website/__init__.py
+/twitter/bot/__init__.py
+/twitter/__init__.py
