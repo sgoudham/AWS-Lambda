@@ -1,8 +1,8 @@
 import random
 from twython import Twython
 
-from twitter.bot.aws_secrets import get_secret
-from twitter.bot.commands import send_tweet
+from bot.aws_secrets import get_secret
+from bot.commands import send_tweet
 
 
 class Winston:
