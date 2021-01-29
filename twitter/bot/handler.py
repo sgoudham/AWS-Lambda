@@ -1,4 +1,4 @@
-from twitter.bot.bot import Winston
+from twitter.bot.winston import Winston
 
 
 def handler(event, context):
