@@ -132,3 +132,5 @@ dmypy.json
 website/__init__.py
 /twitter/bot/__init__.py
 /twitter/__init__.py
+/bot/__init__.py
+/cuckoo/__init__.py
