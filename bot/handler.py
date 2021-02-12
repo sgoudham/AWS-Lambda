@@ -1,5 +1,4 @@
 import logging
-import random
 
 from bot.winston import Winston
 
@@ -22,4 +21,4 @@ def event_handler(event, context):
     for key, values in event.items():
         Actions[key](values)
 
-    winston.send_tweet(random.choice(winston.potential_tweets))
+    winston.send_random_tweet()

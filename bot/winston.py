@@ -1,3 +1,5 @@
+import random
+
 import filetype as filetype
 from twython import Twython
 
@@ -16,13 +18,18 @@ class Winston:
             "I didn't pay my taxes!",
             "I'm wanted in over 60 countries! I'm still on the run :D",
             "Overwatch",
-            
+
         ]
 
     def send_tweet(self, tweet_text):
         """Sends a tweet to Twitter"""
 
         self.bot.update_status(status=tweet_text)
+
+    def send_random_tweet(self):
+        """Tweet something random from potential tweets"""
+        
+        self.bot.update_status(status=random.choice(self.potential_tweets))
 
     def tweet_with_media(self, text_and_media):
         """Tweet with media + optional text"""
