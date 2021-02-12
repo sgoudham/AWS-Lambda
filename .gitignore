@@ -139,3 +139,5 @@ website/__init__.py
 /.idea/inspectionProfiles/Project_Default.xml
 /.idea/vcs.xml
 /.idea/workspace.xml
+/.idea/saveactions_settings.xml
+/cuckoo/__init__.py
