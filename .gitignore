@@ -141,3 +141,4 @@ website/__init__.py
 /.idea/workspace.xml
 /.idea/saveactions_settings.xml
 /cuckoo/__init__.py
+winston_bot_setup.bat
