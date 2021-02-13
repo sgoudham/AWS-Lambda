@@ -76,8 +76,10 @@ class Winston:
         """Follows someone based on given id"""
 
         self.bot.create_friendship(screen_name=username)
+        logger.info(f"Followed User: " f'{username}')
 
     def like_tweet(self, tweet_id):
         """Likes a tweet based on it's ID"""
 
         self.bot.create_favorite(id=tweet_id)
+        logger.info(f"Liked Tweet, Tweet ID: " f'{tweet_id}')
