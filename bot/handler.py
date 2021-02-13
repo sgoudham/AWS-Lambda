@@ -1,9 +1,4 @@
-import logging
-
 from bot.winston import Winston
-
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
 
 
 def event_handler(event, context):
