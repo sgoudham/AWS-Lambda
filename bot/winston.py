@@ -38,7 +38,8 @@ class Winston:
         self.potential_tweets_with_images = [
             ["Are You With Me? @PlayOverwatch", "winston_grin.jpg"],
             ["You won't like me when I'm angry.", "winston_angry.jpg"],
-            ["Look out world! I'm on a rampage!", "winston_primal_rage.jpg"]
+            ["Look out world! I'm on a rampage!", "winston_primal_rage.jpg"],
+            ["Holy Shit.", "overwatch_meme.jpg"]
         ]
 
     def send_tweet(self, tweet_text):
@@ -50,7 +51,7 @@ class Winston:
     def send_random_tweet(self):
         """Tweet something random from potential tweets"""
 
-        result = True
+        result = False
         if result:
             random_tweet = random.choice(self.potential_tweets)
             self.bot.update_status(status=random_tweet)
