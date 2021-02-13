@@ -1,8 +1,7 @@
 import logging
 import random
 
-import filetype as filetype
-from twython import Twython
+from twython import Twython, TwythonError
 
 from bot.aws_secrets import get_secret
 
@@ -13,10 +12,10 @@ logger.setLevel(logging.INFO)
 class Winston:
     def __init__(self):
         self.bot = Twython(
-            get_secret("CONSUMER_KEY"),
-            get_secret("CONSUMER_SECRET"),
-            get_secret("ACCESS_TOKEN_KEY"),
-            get_secret("ACCESS_TOKEN_SECRET")
+            app_key=get_secret("CONSUMER_KEY"),
+            app_secret=get_secret("CONSUMER_SECRET"),
+            oauth_token=get_secret("ACCESS_TOKEN_KEY"),
+            oauth_token_secret=get_secret("ACCESS_TOKEN_SECRET"),
         )
         self.potential_tweets = [
             "@PlayOverwatch I didn't pay my taxes!",
@@ -27,17 +26,19 @@ class Winston:
             "@PlayOverwatch #LetWinstonWallClimb",
             "Please Delete Echo\n\nSincerely, Winston From Overwatch\n\n@PlayOverwatch",
             "Year of the Winston Event When? @PlayOverwatch",
-            "Are You With Me? @PlayOverwatch",
             "Is This On?",
             "How Embarrassing!",
             "Winston From Overwatch.",
             "Is it too much to ask for some peanut butter covered toes? @PlayOverwatch",
             "I'm holding Sigma hostage in Paris.\nFor every hour Echo isn't nerfed, I will remove one of his toes.\n\n@PlayOverwatch",
-            "You won't like me when I'm angry.",
             "My new year's resolutions: Less peanut butter, more... bananas.",
             "I'm feeling unstoppable!",
-            "Look out world! I'm on a rampage!",
             "I have a crippling addiction to peanut butter."
+        ]
+        self.potential_tweets_with_images = [
+            ["Are You With Me? @PlayOverwatch", "winston_grin.jpg"],
+            ["You won't like me when I'm angry.", "winston_angry.jpg"],
+            ["Look out world! I'm on a rampage!", "winston_primal_rage.jpg"]
         ]
 
     def send_tweet(self, tweet_text):
@@ -49,9 +50,16 @@ class Winston:
     def send_random_tweet(self):
         """Tweet something random from potential tweets"""
 
-        random_tweet = random.choice(self.potential_tweets)
-        self.bot.update_status(status=random_tweet)
-        logger.info(f"Random Tweet Sent: " f'{random_tweet}')
+        result = True
+        if result:
+            random_tweet = random.choice(self.potential_tweets)
+            self.bot.update_status(status=random_tweet)
+            logger.info(f"Random Tweet Sent: '{random_tweet}'")
+        else:
+            random_tweet_with_image = random.choice(self.potential_tweets_with_images)
+            self.tweet_with_media(random_tweet_with_image)
+            logger.info(
+                f"Random Tweet With Image Sent:\nTweet: '{random_tweet_with_image[0]}'\nImage Filename: '{random_tweet_with_image[1]}'")
 
     def tweet_with_media(self, text_and_media):
         """Tweet with media + optional text"""
@@ -62,15 +70,12 @@ class Winston:
         path = f"./media/{filename}"
         media = open(path, 'rb')
 
-        if filetype.is_image(media):
-            response = self.bot.upload_media(media=media.read().decode())
-            self.bot.update_status(status=text if text else "Test", media_ids=[response['media_id']])
+        try:
+            response = self.bot.upload_media(media=media)
+            self.bot.update_status(status=text, media_ids=[response['media_id']])
             logger.info(f"Tweet Sent With Image:\nTweet: {text}\nImage Name: {filename}")
-
-        elif filetype.is_video(media):
-            response = self.bot.upload_video(media=media, media_type='video/mp4')
-            self.bot.update_status(media_ids=[response['media_id']])
-            logger.info(f"Tweet Sent With Video:\nTweet: {text}\nVideo Name: {filename}")
+        except TwythonError as error:
+            print(error.msg)
 
     def follow_someone(self, username):
         """Follows someone based on given id"""
