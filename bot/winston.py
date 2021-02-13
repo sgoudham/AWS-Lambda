@@ -1,9 +1,13 @@
+import logging
 import random
 
 import filetype as filetype
 from twython import Twython
 
 from bot.aws_secrets import get_secret
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 
 class Winston:
@@ -17,7 +21,7 @@ class Winston:
         self.potential_tweets = [
             "@PlayOverwatch I didn't pay my taxes!",
             "I'm wanted in over 60 countries!",
-            "Overwatch",
+            "Overwatch.",
             "Echo!",
             "@PlayOverwatch #LetWinstonWallRide",
             "@PlayOverwatch #LetWinstonWallClimb",
@@ -26,21 +30,28 @@ class Winston:
             "Are You With Me? @PlayOverwatch",
             "Is This On?",
             "How Embarrassing!",
-            "Winston From Overwatch",
+            "Winston From Overwatch.",
             "Is it too much to ask for some peanut butter covered toes? @PlayOverwatch",
             "I'm holding Sigma hostage in Paris.\nFor every hour Echo isn't nerfed, I will remove one of his toes.\n\n@PlayOverwatch",
-            "You won't like me when I'm angry."
+            "You won't like me when I'm angry.",
+            "My new year's resolutions: Less peanut butter, more... bananas.",
+            "I'm feeling unstoppable!",
+            "Look out world! I'm on a rampage!",
+            "I have a crippling addiction to peanut butter."
         ]
 
     def send_tweet(self, tweet_text):
         """Sends a tweet to Twitter"""
 
         self.bot.update_status(status=tweet_text)
+        logger.info(f"Tweet Sent: '{tweet_text}'")
 
     def send_random_tweet(self):
         """Tweet something random from potential tweets"""
 
-        self.bot.update_status(status=random.choice(self.potential_tweets))
+        random_tweet = random.choice(self.potential_tweets)
+        self.bot.update_status(status=random_tweet)
+        logger.info(f"Random Tweet Sent: " f'{random_tweet}')
 
     def tweet_with_media(self, text_and_media):
         """Tweet with media + optional text"""
@@ -54,9 +65,12 @@ class Winston:
         if filetype.is_image(media):
             response = self.bot.upload_media(media=media.read().decode())
             self.bot.update_status(status=text if text else "Test", media_ids=[response['media_id']])
+            logger.info(f"Tweet Sent With Image:\nTweet: {text}\nImage Name: {filename}")
+
         elif filetype.is_video(media):
             response = self.bot.upload_video(media=media, media_type='video/mp4')
             self.bot.update_status(media_ids=[response['media_id']])
+            logger.info(f"Tweet Sent With Video:\nTweet: {text}\nVideo Name: {filename}")
 
     def follow_someone(self, username):
         """Follows someone based on given id"""
