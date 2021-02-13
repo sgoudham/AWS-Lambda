@@ -51,7 +51,7 @@ class Winston:
     def send_random_tweet(self):
         """Tweet something random from potential tweets"""
 
-        result = False
+        result = random.choice([True, False])
         if result:
             random_tweet = random.choice(self.potential_tweets)
             self.bot.update_status(status=random_tweet)
