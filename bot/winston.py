@@ -15,10 +15,21 @@ class Winston:
             get_secret("ACCESS_TOKEN_SECRET")
         )
         self.potential_tweets = [
-            "I didn't pay my taxes!",
-            "I'm wanted in over 60 countries! I'm still on the run :D",
+            "@PlayOverwatch I didn't pay my taxes!",
+            "I'm wanted in over 60 countries!",
             "Overwatch",
-
+            "Echo!",
+            "@PlayOverwatch #LetWinstonWallRide",
+            "@PlayOverwatch #LetWinstonWallClimb",
+            "Please Delete Echo\n\nSincerely, Winston From Overwatch\n\n@PlayOverwatch",
+            "Year of the Winston Event When? @PlayOverwatch",
+            "Are You With Me? @PlayOverwatch",
+            "Is This On?",
+            "How Embarrassing!",
+            "Winston From Overwatch",
+            "Is it too much to ask for some peanut butter covered toes? @PlayOverwatch",
+            "I'm holding Sigma hostage in Paris.\nFor every hour Echo isn't nerfed, I will remove one of his toes.\n\n@PlayOverwatch",
+            "You won't like me when I'm angry."
         ]
 
     def send_tweet(self, tweet_text):
@@ -28,7 +39,7 @@ class Winston:
 
     def send_random_tweet(self):
         """Tweet something random from potential tweets"""
-        
+
         self.bot.update_status(status=random.choice(self.potential_tweets))
 
     def tweet_with_media(self, text_and_media):
@@ -41,7 +52,7 @@ class Winston:
         media = open(path, 'rb')
 
         if filetype.is_image(media):
-            response = self.bot.upload_media(media=media.read())
+            response = self.bot.upload_media(media=media.read().decode())
             self.bot.update_status(status=text if text else "Test", media_ids=[response['media_id']])
         elif filetype.is_video(media):
             response = self.bot.upload_video(media=media, media_type='video/mp4')
