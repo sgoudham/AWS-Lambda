@@ -54,13 +54,10 @@ class Winston:
         result = random.choice([True, False])
         if result:
             random_tweet = random.choice(self.potential_tweets)
-            self.bot.update_status(status=random_tweet)
-            logger.info(f"Random Tweet Sent: '{random_tweet}'")
+            self.send_tweet(random_tweet)
         else:
             random_tweet_with_image = random.choice(self.potential_tweets_with_images)
             self.tweet_with_media(random_tweet_with_image)
-            logger.info(
-                f"Random Tweet With Image Sent:\nTweet: '{random_tweet_with_image[0]}'\nImage Filename: '{random_tweet_with_image[1]}'")
 
     def tweet_with_media(self, text_and_media):
         """Tweet with media + optional text"""
@@ -74,7 +71,7 @@ class Winston:
         try:
             response = self.bot.upload_media(media=media)
             self.bot.update_status(status=text, media_ids=[response['media_id']])
-            logger.info(f"Tweet Sent With Image:\nTweet: {text}\nImage Name: {filename}")
+            logger.info(f"Tweet Sent With Image: || Tweet: {text} || Image Name: {filename}")
         except TwythonError as error:
             print(error.msg)
 
