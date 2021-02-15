@@ -14,6 +14,7 @@ def event_handler(event, context):
     }
 
     for key, values in event.items():
-        Actions[key](values)
+        if key in Actions:
+            Actions[key](values)
 
     winston.send_random_tweet()
