@@ -1,4 +1,2 @@
 twython~=3.8.2
-boto3~=1.17.6
-filetype~=1.0.7
-Jinja2~=2.11.3
+boto3~=1.17.7
