@@ -15,7 +15,7 @@ class Winston:
             app_key=get_secret("CONSUMER_KEY"),
             app_secret=get_secret("CONSUMER_SECRET"),
             oauth_token=get_secret("ACCESS_TOKEN_KEY"),
-            oauth_token_secret=get_secret("ACCESS_TOKEN_SECRET"),
+            oauth_token_secret=get_secret("ACCESS_TOKEN_SECRET")
         )
         self.potential_tweets = [
             "@PlayOverwatch I didn't pay my taxes!",
@@ -65,7 +65,7 @@ class Winston:
         text = text_and_media[0]
         filename = text_and_media[1]
 
-        path = f"./media/{filename}"
+        path = f"./bot/media/{filename}"
         media = open(path, 'rb')
 
         try:
